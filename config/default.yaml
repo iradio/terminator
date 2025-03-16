@@ -1,0 +1,56 @@
+app:
+  name: terminator
+  version: 1.0.0
+  port: 3000
+  environment: development
+
+database:
+  type: postgresql
+  host: localhost
+  port: 5432
+  name: terminator_db
+  max_connections: 10
+
+telegram:
+  bot_token: YOUR_BOT_TOKEN
+  webhook_url: YOUR_WEBHOOK_URL
+  admin_chat_ids: []
+
+scraping:
+  interval_minutes: 5
+  max_retries: 3
+  timeout_seconds: 30
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  proxy:
+    enabled: false
+    rotation: true
+    list: []
+
+notifications:
+  telegram:
+    enabled: true
+    rate_limit: 10 # messages per minute
+  email:
+    enabled: false
+    smtp:
+      host: smtp.example.com
+      port: 587
+      secure: true
+
+payment:
+  stripe:
+    public_key: YOUR_STRIPE_PUBLIC_KEY
+    secret_key: YOUR_STRIPE_SECRET_KEY
+  subscription_plans:
+    - name: free
+      features: [basic_alerts]
+    - name: premium
+      features: [instant_alerts, auto_booking]
+      price_monthly: 9.99
+
+security:
+  jwt_secret: YOUR_JWT_SECRET
+  token_expiry: 24h
+  rate_limiting:
+    window_ms: 900000 # 15 minutes
+    max_requests: 100

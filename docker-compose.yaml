@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: terminator-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://terminator:terminator@db:5432/terminator_db
+      - REDIS_URL=redis://redis:6379
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - ./logs:/usr/src/app/logs
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    networks:
+      - terminator-network
+
+  db:
+    image: postgres:14-alpine
+    container_name: terminator-db
+    environment:
+      - POSTGRES_USER=terminator
+      - POSTGRES_PASSWORD=terminator
+      - POSTGRES_DB=terminator_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - terminator-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: terminator-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - terminator-network
+    restart: unless-stopped
+
+networks:
+  terminator-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
