@@ -99,6 +99,13 @@ terminator/
 └── docker-compose.yaml
 ```
 
+## Data sources
+
+| City              | Service Provider | URL |
+| :---------------- | :------------ | :---------------------------------------------------------------- |
+| Bielefeld | Fahrerlaubnisbehörde | https://tempus-termine.com/termine/index.php?anr=110 |
+| Bielefeld | Standesamt | https://tempus-termine.com/termine/index.php?anlagennr=58 |
+
 ## API Documentation
 
 API documentation will be available at `/api/docs` after starting the server.
